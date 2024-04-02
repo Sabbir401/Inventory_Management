@@ -13,7 +13,7 @@ export default {
     const target = ref(null);
     const store = useStore();
     const form = reactive({
-      UID: store.state.userId,
+      UID: null,
       name: "",
       description: "",
       date: "",
@@ -31,8 +31,22 @@ export default {
       }
     );
 
-    onMounted(() => {
-      onClickOutside(target, () => emit("modal-close"));
+    // onMounted(() => {
+    //   onClickOutside(target, () => emit("modal-close"));
+    // });
+
+    onMounted(async () => {
+      try {
+        const response = await axios.get('/api/get-session-data');
+        form.UID = response.data.userId;
+
+        // Attach click outside event listener
+        onClickOutside(target.value, () => {
+          emit("modal-close");
+        });
+      } catch (error) {
+        console.error('Error fetching session data:', error);
+      }
     });
 
     const closeModal = () => {

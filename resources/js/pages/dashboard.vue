@@ -69,10 +69,16 @@
                     Edit
                   </button>
                   <button
-                    class="btn btn-primary"
+                    class="btn btn-primary mr-2"
                     @click="editHandler(inventory.id)"
                   >
                     Details
+                  </button>
+                  <button
+                    class="btn btn-danger"
+                    @click="deleteInventory(inventory.id)"
+                  >
+                    Delete
                   </button>
                 </td>
               </tr>
@@ -138,14 +144,23 @@ export default {
       }
     };
 
+    const deleteInventory = async (id) => {
+      try {
+        const response = await axios.delete(`api/inventory/${id}`);
+        getData();
+      } catch (err) {
+        console.error("Error fetching store data for editing:", err);
+      }
+    };
+
     const getData = async () => {
       try {
-        const userID = store.state.userId;
-        const response = await axios.get(`/api/users/${userID}`);
-        const responseInventory = await axios.get(`/api/inventory`);
-        console.log(responseInventory.data);
+        const res = await axios.get('/api/get-session-data');
+        const userID = res.data.userId;
+
+        const responseInventory = await axios.get(`/api/inventory/${userID}`);
         inventoryData.value = responseInventory.data;
-        user.value = response.data;
+
       } catch (error) {
         console.error("Error fetching data");
       }
@@ -169,6 +184,7 @@ export default {
       selecteddata,
       inventoryData,
       editHandler,
+      deleteInventory,
     };
   },
 };

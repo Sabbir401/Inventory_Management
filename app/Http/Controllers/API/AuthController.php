@@ -6,19 +6,21 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
-        $validator = Validator::make($request->all(),[
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
             'name'      =>  'required',
             'email'     =>  'required|email',
             'password'  =>  'required',
-            'c_password'=>  'required|same:password'
+            'c_password' =>  'required|same:password'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             $response   =   [
                 'success'   =>  false,
                 'message'   =>  $validator->errors()
@@ -38,12 +40,13 @@ class AuthController extends Controller
             'message'       =>  'User register successfully',
             'userid'        =>  $user->id,
         ];
-        return response()->json($response,200);
 
+        return response()->json($response, 200);
     }
 
-    public function login(Request $request){
-        if(Auth::attempt(['email' =>  $request->email, 'password'  =>  $request->password])){
+    public function login(Request $request)
+    {
+        if (Auth::attempt(['email' =>  $request->email, 'password'  =>  $request->password])) {
             $user = Auth::user();
 
             $success['token']   =   $user->createToken('MyApp')->plainTextToken;
@@ -54,13 +57,27 @@ class AuthController extends Controller
                 'message'       =>  'User register successfully',
                 'userid'        =>  $user->id,
             ];
-            return response()->json($response,200);
-        }else{
+            Session::put('user_id', $user->id);
+            Session::put('username', $user->name);
+
+            return response()->json($response, 200);
+        } else {
             $response       =   [
-            'success'       =>  false,
-            'message'       =>  'Unauthorized User'
+                'success'       =>  false,
+                'message'       =>  'Unauthorized User'
             ];
             return response()->json($response);
         }
+    }
+
+    public function getSessionData()
+    {
+        $data = [
+            'userId' => session('user_id'),
+            'username' => session('username'),
+            // Add more session data as needed
+        ];
+
+        return response()->json($data);
     }
 }

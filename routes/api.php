@@ -27,6 +27,8 @@ Route::controller(AuthController::class)->group(function(){
     Route::post('register','register');
 });
 
+Route::get('/get-session-data', [AuthController::class, 'getSessionData']);
+
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{id}', [UserController::class, 'find']);
 

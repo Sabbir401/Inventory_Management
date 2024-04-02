@@ -20,10 +20,6 @@ class InventoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function find($id)
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -49,9 +45,10 @@ class InventoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Inventory $inventory)
+    public function show($id)
     {
-        //
+        $inventory = Inventory::where('user_id', $id)->get();
+        return response()->json($inventory);
     }
 
     /**
@@ -88,8 +85,10 @@ class InventoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Inventory $inventory)
+    public function destroy( $id)
     {
-        //
+        $record = Inventory::find($id);
+        $record->delete();
+        return response()->json(['message' => 'Inventory deleted successfully']);
     }
 }
