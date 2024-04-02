@@ -63,10 +63,16 @@
                 <td>{{ inventory.Status }}</td>
                 <td>
                   <button
-                    class="btn btn-success"
+                    class="btn btn-success mr-2"
                     @click="editHandler(inventory.id)"
                   >
                     Edit
+                  </button>
+                  <button
+                    class="btn btn-primary"
+                    @click="editHandler(inventory.id)"
+                  >
+                    Details
                   </button>
                 </td>
               </tr>
