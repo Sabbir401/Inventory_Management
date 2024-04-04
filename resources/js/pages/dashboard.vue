@@ -53,30 +53,30 @@
             </thead>
             <tbody>
               <tr
-                v-for="(inventory, index) in inventoryData"
-                :key="inventory.id"
+                v-for="(inven, index) in inventoryData"
+                :key="inven.id"
               >
                 <td>{{ index + 1 }}</td>
-                <td>{{ inventory.Date }}</td>
-                <td>{{ inventory.Name }}</td>
-                <td>{{ inventory.Description }}</td>
-                <td>{{ inventory.Status }}</td>
+                <td>{{ inven.Date }}</td>
+                <td>{{ inven.Name }}</td>
+                <td>{{ inven.Description }}</td>
+                <td>{{ inven.Status }}</td>
                 <td>
                   <button
                     class="btn btn-success mr-2"
-                    @click="editHandler(inventory.id)"
+                    @click="editHandler(inven.id)"
                   >
                     Edit
                   </button>
                   <button
                     class="btn btn-primary mr-2"
-                    @click="editHandler(inventory.id)"
+                    @click="router.push(`/item/${inven.id}`)"
                   >
                     Details
                   </button>
                   <button
                     class="btn btn-danger"
-                    @click="deleteInventory(inventory.id)"
+                    @click="deleteInventory(inven.id)"
                   >
                     Delete
                   </button>
@@ -101,9 +101,11 @@ import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import inventory from "./Component/createInventory.vue";
 
+// import router from '../router';
+
 export default {
   components: {
-    inventory, // Registering the inventory component
+    inventory,
   },
   setup() {
     const router = useRouter();
@@ -185,6 +187,8 @@ export default {
       inventoryData,
       editHandler,
       deleteInventory,
+      router,
+      inventory
     };
   },
 };

@@ -30,14 +30,22 @@ const routes = [
             requiresAuth:true
         }
     },
-    // {
-    //     path: '/inventory',
-    //     name: 'Inventory',
-    //     component: () => import('./pages/createInventory.vue'),
-    //     meta:{
-    //         requiresAuth:true
-    //     }
-    // },
+    {
+        path: '/item/',
+        name: 'item',
+        component: () => import('./pages/test.vue'),
+        meta:{
+            requiresAuth:true
+        }
+    },
+    {
+        path: '/item/:id',
+        name: 'itemid',
+        component: () => import('./pages/item.vue'),
+        meta:{
+            requiresAuth:true
+        }
+    },
 ];
 
 const router = createRouter({
