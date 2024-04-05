@@ -4,7 +4,7 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        component: () => import('./pages/home.vue'),
+        component: () => import('./pages/login.vue'),
     },
     {
         path: '/login',
@@ -39,8 +39,8 @@ const routes = [
         }
     },
     {
-        path: '/item/:id',
-        name: 'itemid',
+        path: '/inventry/:id',
+        name: 'inventryid',
         component: () => import('./pages/item.vue'),
         meta:{
             requiresAuth:true

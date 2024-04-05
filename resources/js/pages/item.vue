@@ -18,7 +18,7 @@
         <form
           class="forms-sample"
           enctype="multipart/form-data"
-          @submit.prevent="submit"
+          @submit.prevent="submitHandler"
         >
           <div class="row">
             <div class="form-group col-lg-4">
@@ -91,38 +91,27 @@
               </tr>
             </thead>
             <tbody>
-                <tr
-                  v-for="(item, index) in items"
-                  :key="item.id"
-                >
-                  <td>{{ index + 1 }}</td>
-                  <td>{{ item.Name }}</td>
-                  <td>{{ item.Description }}</td>
-                  <td>{{ item.quantity }}</td>
-                  <td><img :src="item.image_url" height="50px" width="50px"></td>
-                  <td><img src="/public/storage/uploads/1712220701_Kazi Sabbir Ahmed.jpg" height="50px" width="50px"></td>
-                  <td>
-                    <button
-                      class="btn btn-success mr-2"
-                      @click="editHandler(item.id)"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      class="btn btn-primary mr-2"
-                      @click="router.push(`/item/${item.id}`)"
-                    >
-                      Details
-                    </button>
-                    <button
-                      class="btn btn-danger"
-                      @click="deleteItem(item.id)"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
+              <tr v-for="(item, index) in items" :key="item.id">
+                <td>{{ index + 1 }}</td>
+                <td>{{ item.Name }}</td>
+                <td>{{ item.Description }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>
+                  <img :src="item.image_url" height="50px" width="50px" />
+                </td>
+                <td>
+                  <button
+                    class="btn btn-success mr-2"
+                    @click="editHandler(item.id)"
+                  >
+                    Show
+                  </button>
+                  <button class="btn btn-danger" @click="deleteItem(item.id)">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
           </table>
           <br />
           <!-- <Bootstrap5Pagination
@@ -136,35 +125,49 @@
 </template>
 
 <script>
-import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { ref, onMounted, reactive, watch } from "vue";
+import { useStore } from "vuex";
 
 export default {
   setup() {
-    const router = useRouter();
+    const route = useRoute();
+    const invid = parseInt(route.params.id);
+
+    const store = useStore();
+
+    const selecteddata = ref(null);
 
     const form = reactive({
-      inventoryId: 1,
+      inventoryId: invid,
       name: "",
       description: "",
       quantity: "",
       image: null,
     });
 
+    watch(
+      () => selecteddata.value,
+      (newVal) => {
+        form.inventoryId = newVal.id;
+        form.name = newVal.Name;
+        form.description = newVal.Description;
+        form.quantity = newVal.quantity;
+      }
+    );
+
     const items = ref("");
 
     function logout() {
       store.dispatch("removeToken");
-      //   localStorage.removeItem("token");
-      router.push({ name: "Login" });
+      route.push({ name: "Login" });
     }
 
     const editHandler = async (id) => {
       try {
-        const response = await axios.get(`api/inventory/${id}/edit`);
+        const response = await axios.get(`/api/item/${id}/edit`);
         selecteddata.value = response.data;
-        heading.value = "Update";
-        openModal();
+        consolelog(selecteddata);
       } catch (err) {
         console.error("Error fetching store data for editing:", err);
       }
@@ -172,7 +175,7 @@ export default {
 
     const deleteItem = async (id) => {
       try {
-        const response = await axios.delete(`api/item/${id}`);
+        const response = await axios.delete(`/api/item/${id}`);
         getData();
       } catch (err) {
         console.error("Error fetching store data for editing:", err);
@@ -181,18 +184,38 @@ export default {
 
     const getData = async () => {
       try {
-        const res = await axios.get("/api/get-session-data");
-        const userID = res.data.userId;
+        // const res = await axios.get("/api/get-session-data");
+        // const userID = res.data.userId;
 
-        const responseItem = await axios.get(`/api/item`);
+        const responseItem = await axios.get(`/api/item/${form.inventoryId}`);
         items.value = responseItem.data;
       } catch (error) {
         console.error("Error fetching data");
       }
     };
 
+    const resetForm = () => {
+      Object.keys(form).forEach((key) => {
+        form[key] = "";
+      });
+    };
+
+    const update = async () => {
+      try {
+        const response = await axios.put(`/api/item/${form.inventoryId}`, form);
+        if (response.data.success) {
+          alert("Successfully Updated");
+          resetForm();
+          getData();
+        }
+      } catch (error) {
+        console.error("Error updating store:", error);
+      }
+    };
+
+
     const getImage = (e) => {
-    //   file.value = e.target.files[0];
+      //   file.value = e.target.files[0];
       form.image = e.target.files[0];
     };
 
@@ -217,8 +240,19 @@ export default {
         const response = await axios.post("/api/item", data, config);
         console.log(response.data);
         alert("Successfully Inserted");
+        resetForm();
+        getData();
       } catch (error) {
         console.error("Error uploading image:", error);
+      }
+    };
+
+
+    const submitHandler = () => {
+      if(invid){
+        update();
+      }else{
+        submit();
       }
     };
 
@@ -230,9 +264,11 @@ export default {
       submit,
       editHandler,
       deleteItem,
-      router,
+      route,
       getImage,
       items,
+      selecteddata,
+      submitHandler,
     };
   },
 };

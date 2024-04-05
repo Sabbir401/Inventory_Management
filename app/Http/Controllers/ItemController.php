@@ -38,6 +38,7 @@ class ItemController extends Controller
         if ($request->file()) {
             $file_name = time() . '_' . $request->file->getClientOriginalName();
             $file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
+            // $file_path = $request->file('file')->storeAs('public/image/', $file_name, 'local');
         }
 
         $item = Item::create([
@@ -45,7 +46,7 @@ class ItemController extends Controller
             'Name' => $request->input('name'),
             'Description' => $request->input('description'),
             'quantity' => $request->input('quantity'),
-            'image_url' => '/stroage/'.$file_path,
+            'image_url' => '/storage'.$file_path,
         ]);
 
         $response = [
@@ -59,25 +60,41 @@ class ItemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Item $item)
+    public function show($id)
     {
-        //
+        $item = item::where('inventory_id', $id)->get();
+        return response()->json($item);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Item $item)
+    public function edit($id)
     {
-        //
+        $item = Item::find($id);
+
+        return response()->json($item);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Item $item)
+    public function update(Request $request, $id)
     {
-        //
+
+        $store = Item::find($id);
+        $store->update([
+            'Name' => $request->input('name'),
+            'Description' => $request->input('description'),
+            'quantity' => $request->input('quantity'),
+        ]);
+
+        $response = [
+            'success' => true,
+            'message'  => 'Updated Successfully'
+        ];
+
+        return response()->json($response);
     }
 
     /**

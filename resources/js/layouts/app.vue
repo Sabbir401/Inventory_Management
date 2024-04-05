@@ -1,11 +1,11 @@
 <template>
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <router-link class="text-white" :to="{ name: 'Home' }"
           >Home</router-link
         >
-      </li>
+      </li> -->
       <li class="nav-item">
         <router-link class="text-white ml-4" :to="{ name: 'Login' }"
           >Login</router-link

@@ -70,7 +70,7 @@
                   </button>
                   <button
                     class="btn btn-primary mr-2"
-                    @click="router.push(`/item/${inven.id}`)"
+                    @click="router.push(`/inventry/${inven.id}`)"
                   >
                     Details
                   </button>
