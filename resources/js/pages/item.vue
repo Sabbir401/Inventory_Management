@@ -100,9 +100,6 @@
                   <img :src="item.image_url" height="50px" width="50px" />
                 </td>
                 <td>
-                  <img src="/storage/app/uploads/1712242126_artisan_logo-removebg-preview.png" height="50px" width="50px" />
-                </td>
-                <td>
                   <button
                     class="btn btn-success mr-2"
                     @click="editHandler(item.id)"
