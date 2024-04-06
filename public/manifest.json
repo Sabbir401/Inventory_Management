@@ -1,0 +1,73 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-w40geAFS.js",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/js/app.js": {
+    "css": [
+      "assets/app-GJ9Oc6D_.css"
+    ],
+    "dynamicImports": [
+      "resources/js/pages/login.vue",
+      "resources/js/pages/login.vue",
+      "resources/js/pages/register.vue",
+      "resources/js/pages/dashboard.vue",
+      "resources/js/pages/test.vue",
+      "resources/js/pages/item.vue"
+    ],
+    "file": "assets/app-d_ZuPGGL.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/js/pages/dashboard.vue": {
+    "css": [
+      "assets/dashboard-Z7_8LVf7.css"
+    ],
+    "file": "assets/dashboard-VwDmkMBg.js",
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/dashboard.vue"
+  },
+  "resources/js/pages/item.vue": {
+    "assets": [
+      "assets/1712242126_artisan_logo-removebg-preview-U4Dg54Fy.png"
+    ],
+    "file": "assets/item-q-gEN_1s.js",
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/item.vue"
+  },
+  "resources/js/pages/login.vue": {
+    "file": "assets/login-9-_4EevZ.js",
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/login.vue"
+  },
+  "resources/js/pages/register.vue": {
+    "file": "assets/register-zkQk6ADr.js",
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/register.vue"
+  },
+  "resources/js/pages/test.vue": {
+    "file": "assets/test-vjfOqwBv.js",
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/test.vue"
+  },
+  "storage/app/uploads/1712242126_artisan_logo-removebg-preview.png": {
+    "file": "assets/1712242126_artisan_logo-removebg-preview-U4Dg54Fy.png",
+    "src": "storage/app/uploads/1712242126_artisan_logo-removebg-preview.png"
+  }
+}

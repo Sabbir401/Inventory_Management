@@ -46,7 +46,7 @@ class ItemController extends Controller
             'Name' => $request->input('name'),
             'Description' => $request->input('description'),
             'quantity' => $request->input('quantity'),
-            'image_url' => '/storage'.$file_path,
+            'image_url' => '/storage/'. $file_path,
         ]);
 
         $response = [

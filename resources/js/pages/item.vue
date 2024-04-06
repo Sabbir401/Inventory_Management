@@ -100,6 +100,9 @@
                   <img :src="item.image_url" height="50px" width="50px" />
                 </td>
                 <td>
+                  <img src="/storage/app/uploads/1712242126_artisan_logo-removebg-preview.png" height="50px" width="50px" />
+                </td>
+                <td>
                   <button
                     class="btn btn-success mr-2"
                     @click="editHandler(item.id)"
@@ -135,6 +138,7 @@ export default {
     const invid = parseInt(route.params.id);
 
     const store = useStore();
+    var flag = 0
 
     const selecteddata = ref(null);
 
@@ -167,7 +171,8 @@ export default {
       try {
         const response = await axios.get(`/api/item/${id}/edit`);
         selecteddata.value = response.data;
-        consolelog(selecteddata);
+        flag = 1;
+        console.log(selecteddata);
       } catch (err) {
         console.error("Error fetching store data for editing:", err);
       }
@@ -249,8 +254,9 @@ export default {
 
 
     const submitHandler = () => {
-      if(invid){
+      if(flag == 1){
         update();
+        flag = 0;
       }else{
         submit();
       }
